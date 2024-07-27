@@ -1,6 +1,7 @@
 alert("¡Bienvenido a >CodeMate!")
-let opcion = pedirTexto("Ingrese para:\n1 - Comprar video juegos\n2 - Finalizar compra\n0 - Salir")
+let opcion = pedirTexto("Ingrese para:\n1 - Comprar video juegos\n2 - Finalizar compra\n3 - Filtrar\n0 - Salir")
 let total = 0
+let carrito = []
 
 while (opcion !== 0) {
     if (opcion === 1) {

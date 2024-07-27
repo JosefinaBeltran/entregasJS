@@ -1,0 +1,13 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(to right, rgb(62, 66, 103), rgba(140,122,159,1));
+}
+h1{
+    color: white;
+    font-style: italic;
+    font-size: 8vh;
+    font-weight: bolder;
+}
