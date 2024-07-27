@@ -1,7 +1,15 @@
 alert("¡Bienvenido a >CodeMate!")
-let opcion = pedirTexto("Ingrese para:\n1 - Comprar video juegos\n2 - Finalizar compra\n3 - Filtrar\n0 - Salir")
-let total = 0
+let opcion = pedirTexto("Ingrese para:\n1 - Comprar video juegos\n2 - Finalizar compra\n3 - Filtrar por Categoría\n4 - Filtrar por plataforma para jugar\n0 - Salir")
 let carrito = []
+let total = 0
+
+let juegos = [
+    { id: 1, nombre: "Dark Souls 3", categoria: "Acción / RPG", precio: 60, plataforma: "PC, PS4" },
+    { id: 2, nombre: "Genshin Impact", categoria: "Acción / Aventura / RPG", precio: 10, plataforma: "PC, PS4, PS5" },
+    { id: 3, nombre: "Resident Evil 8", categoria: "Horror / Supervivencia", precio: 48, plataforma: "PC, PS4, PS5, Xbox One" },
+    { id: 4, nombre: "OverCooked 2", categoria: "Simulación / Estrategia / Multijugador", precio: 5, plataforma: "PC, PS4, Xbox One, Nintendo Switch" },
+    { id: 5, nombre: "League of Legends", categoria: "MOBA", precio: 80, plataforma: "PC" }
+]
 
 while (opcion !== 0) {
     if (opcion === 1) {
