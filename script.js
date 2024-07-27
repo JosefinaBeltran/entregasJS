@@ -78,8 +78,8 @@ while (opcion !== 0) {
     }
     //Filtrar por categoría
     else if (opcion === 4){
-        let categoriaJuego = prompt("Ingrese la categoría que desea buscar: ").toUpperCase()
-        let categoriaBuscada = juegos.filter(juego => juego.categoria.toUpperCase().includes(categoriaJuego))
+        let categoriaJuego = prompt("Ingrese la categoría que desea buscar: ")
+        let categoriaBuscada = juegos.filter(juego => juego.categoria.toUpperCase().includes(categoriaJuego.toUpperCase()))
         if (categoriaBuscada.length > 0){
             alert("Juegos con la categoría buscada: \n" + listar(categoriaBuscada))
         }
@@ -93,7 +93,7 @@ while (opcion !== 0) {
 function listar(listaJuegos){
     //con el metodo map() buscamos que nos guarde en un nuevo array los juegos que selecciona el cliente
     //Nuevo array
-    return listaJuegos.map(juegos => juegos.id + " - " + juegos.nombre + " | Precio: " + juegos.precio).join("\n")
+    return listaJuegos.map(juegos => juegos.id + " - " + juegos.nombre + " | Precio: " + juegos.precio + " | Categoria: " + juegos.categoria).join("\n")
 }
 
 function pedirTexto(texto) {
