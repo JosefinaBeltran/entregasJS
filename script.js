@@ -1,107 +1,307 @@
-alert("¡Bienvenido a >CodeMate!")
-let opcion = pedirTexto("Ingrese para:\n1 - Comprar video juegos\n2 - Finalizar compra\n3 - Buscar juego\n4 - Filtrar por Categoria\n0 - Salir")
-let carrito = []
-let total = 0
+fetch('./info.json')
+    .then(respuesta => respuesta.json())
+    .then(juego => main(juego))
+    .catch(error => console.log(error))
 
-//array de juegos que se venden en la pagina web
-let juegos = [
-    { id: 1, nombre: "Dark Souls 3", categoria: "Acción / RPG", precio: 60, plataforma: "PC, PS4" },
-    { id: 2, nombre: "Genshin Impact", categoria: "Acción / Aventura / RPG", precio: 10, plataforma: "PC, PS4, PS5" },
-    { id: 3, nombre: "Resident Evil 8", categoria: "Horror / Supervivencia", precio: 48, plataforma: "PC, PS4, PS5, Xbox One" },
-    { id: 4, nombre: "OverCooked 2", categoria: "Simulación / Estrategia / Multijugador", precio: 5, plataforma: "PC, PS4, Xbox One, Nintendo Switch" },
-    { id: 5, nombre: "League of Legends", categoria: "MOBA", precio: 80, plataforma: "PC" }
-]
-
-while (opcion !== 0) {
-    //Comprar juego
-    if (opcion === 1){
-        let idJuego = pedirTexto("Ingrese el ID del video juego que desea comprar: \n" + listar(juegos))
-        //con el metodo some() buscamos verificar que en el el array juegos existe al menos un ID igual al ID ingresado.
-        //Respuestas posibles: True o False
-        if (juegos.some( juegos => juegos.id === idJuego)){
-            //Con el metodo find() buscamos que nos guarde en la var el juego que tiene el ID ingresado
-            let juegoIngresado = juegos.find(juegos => juegos.id === idJuego)
-            //Con el metodo findIndex() vamos a buscar comprobar si el juego ya esta en el carrito
-            //Respuestas posibles: 1, -1 
-            let juegoEnCarrito = carrito.findIndex(juegos => juegos.id === idJuego)
-            if (juegoEnCarrito === -1){
-                let unidades = pedirTexto("Ingrese cantidad de unidades: ")
-                carrito.push({
-                        id: juegoIngresado.id, 
-                        nombre: juegoIngresado.nombre, 
-                        categoria: juegoIngresado.categoria, 
-                        precioUnitario: juegoIngresado.precio, 
-                        plataforma: juegoIngresado.plataforma,
-                        unidades: unidades,
-                        subtotal: juegoIngresado.precio * unidades
-                    })
-            }
-            else {
-                carrito[juegoEnCarrito].unidades++
-                carrito[juegoEnCarrito].subtotal = carrito[juegoEnCarrito].unidades * carrito[juegoEnCarrito].precioUnitario
-            }
-        }
-        else {
-            alert("El ID ingresado no existe. Intente nuevamente.")
-        }
-    }
-    //Finalizar Compra
-    else if (opcion === 2){
-        if(carrito.length > 0){
-            //con el metodo reduce() buscamos que se calcule el total de la compra
-            let total = carrito.reduce((acumulador, juego) => acumulador + juego.subtotal, 0)
-            let descuento = prompt("Usted tiene un descuento en >CodeMate del 30%, si quiere aprovecharlo ingrese el código: CODERHOUSE")
-            if(descuento === 'CODERHOUSE'){
-                total = aplicarDescuento(total)
-                alert("Total: $" + total + " USD.\n¡Gracias por su compra en >CodeMate!")
-            }
-            else{
-                alert("Total: $" + total + " USD.\n¡Gracias por su compra en >CodeMate!")
-            }
-            //total = 0
-            break
-        }
-        else{
-            alert("Su carrito se encuentra vacío.")
-        }
-    }
-    //Buscar juego
-    else if (opcion === 3){
-        let nombreJuego = prompt("Ingrese el nombre del juego que desea buscar: ")
-        let juegoBuscado = juegos.find(juegos => juegos.nombre.toUpperCase().includes(nombreJuego.toUpperCase()))
-        if(juegoBuscado){
-            alert("Juego encontrado: \n" + juegoBuscado.id + " - " + juegoBuscado.nombre + " | Precio: " + juegoBuscado.precio + " | Categoria: " + juegoBuscado.categoria)
-        }
-        else{
-            alert("El juego ingresado no se encuentra en nuestra página web.")
-        }
-    }
-    //Filtrar por categoría
-    else if (opcion === 4){
-        let categoriaJuego = prompt("Ingrese la categoría que desea buscar: ")
-        let categoriaBuscada = juegos.filter(juego => juego.categoria.toUpperCase().includes(categoriaJuego.toUpperCase()))
-        if (categoriaBuscada.length > 0){
-            alert("Juegos con la categoría buscada: \n" + listar(categoriaBuscada))
-        }
-        else{
-            alert("La categoría buscada no se encuentra en nuestra página web.")
-        }
-    }
-    opcion = pedirTexto("Ingrese para:\n1 - Comprar video juegos\n2 - Finalizar compra\n3 - Buscar juego\n4 - Filtrar por Categoria\n0 - Salir")
+/**----------------------------------------------------PRODUCTOS---------------------------------------- */
+function crearTarjetasJuegos(juegos) {
+    let contenedorJuegos = document.getElementById("grid")
+    contenedorJuegos.innerHTML = `
+        <div class="grafico grafico--juegos"></div>
+        <div class="grafico grafico--node"></div>
+    `
+    juegos.forEach(juego => {
+        let nodoJuego = document.createElement("div")
+        nodoJuego.className = "juego" 
+        nodoJuego.innerHTML = `
+            <img class=juego__imagen src=${juego.img} alt=imagen_juego>
+            <div class="juego__informacion">
+                <p class="juego__nombre">${juego.nombre}</p>
+                <p class="juego__precio">$${juego.precio}</p>
+                <button id=${juego.id} class="formulario__submit">Agregar Carrito</button>
+            </div>
+        `
+        contenedorJuegos.appendChild(nodoJuego)
+        let botonAgregarCarrito = document.getElementById(juego.id)
+        botonAgregarCarrito.addEventListener("click", (e) => agregarAlCarrito(e, juegos))
+    })
 }
 
-function listar(listaJuegos){
-    //con el metodo map() buscamos que nos guarde en un nuevo array los juegos que selecciona el cliente
-    //Nuevo array
-    return listaJuegos.map(juegos => juegos.id + " - " + juegos.nombre + " | Precio: " + juegos.precio + " | Categoria: " + juegos.categoria).join("\n")
+function crearFiltrosPorCategoria(listaJuegos) {
+    let categorias = []
+    let contenedorFiltros = document.getElementById("filtros__categoria")
+    listaJuegos.forEach(juego => {
+        if(!categorias.includes(juego.categoria)){
+            categorias.push(juego.categoria)
+
+            let botonFiltroCategoria = document.createElement("button")
+            botonFiltroCategoria.innerText = juego.categoria
+            botonFiltroCategoria.value = juego.categoria
+            botonFiltroCategoria.className = "formulario__submit"
+
+            botonFiltroCategoria.addEventListener("click", (e) => filtrarPorCategoria(e, listaJuegos, `${juego.categoria}`))
+
+            contenedorFiltros.appendChild(botonFiltroCategoria)
+        }
+    })
+
+    let botonTodos = document.getElementById("todos")
+    let textoToast = "Filtro reseteado"
+    botonTodos.addEventListener("click", (e) => filtrarPorCategoria(e, listaJuegos, textoToast))
 }
 
-function pedirTexto(texto) {
-    return Number(prompt(texto))
+function filtrarPorNombre(juegos, valorBusqueda) {
+    let valorBusquedaLower = valorBusqueda.toLowerCase()
+    let juegosFiltrados = juegos.filter(juego => juego.nombre.toLowerCase().includes(valorBusquedaLower))
+    crearTarjetasJuegos(juegosFiltrados)
+    alertaToast(`Busqueda realizada: ${valorBusqueda}`)
 }
 
-function aplicarDescuento(total){
-    let descuento = (total * 30) / 100
-    let totalConDescuento = total - descuento
-    return totalConDescuento
+function filtrarPorCategoria(e, juegos, texto) {
+    let juegosFiltrados = juegos.filter(juego => juego.categoria.includes(e.target.value))
+    crearTarjetasJuegos(juegosFiltrados)
+    alertaToast(texto)
+}
+/**--------------------------------------------LOCALSTORAGE---------------------------------------------- */
+function setearCarrito(carrito) {
+    let carritoJSON = JSON.stringify(carrito)
+    localStorage.setItem("carrito",carritoJSON)
+}
+
+function obtenerCarrito() {
+    let carrito = []
+    if (localStorage.getItem("carrito")) {
+        carrito = JSON.parse(localStorage.getItem("carrito"))
+    }
+    return carrito
+}
+
+function setearTotal(total) {
+    localStorage.setItem("total", total)
+}
+
+function obtenerTotal() {
+    let total = localStorage.getItem("total");
+    return total ? Number(total) : 0
+}
+/**------------------------------------------------CARRITO----------------------------------------------- */
+function agregarAlCarrito(e, juegos) {
+    let carrito = obtenerCarrito()
+    let idJuego = Number(e.target.id)
+    let juegoBuscado = juegos.find(juego => juego.id === idJuego)
+    let indiceJuegoCarrito = carrito.findIndex(juego => juego.id === idJuego)
+    if(indiceJuegoCarrito != -1) {
+        carrito[indiceJuegoCarrito].unidades++
+        carrito[indiceJuegoCarrito].subtotal = carrito[indiceJuegoCarrito].precioUnitario * carrito[indiceJuegoCarrito].unidades
+    }else{
+        carrito.push({
+            id: juegoBuscado.id,
+            nombre: juegoBuscado.nombre,
+            precioUnitario: juegoBuscado.precio,
+            unidades: 1,
+            subtotal: juegoBuscado.precio
+        })
+    }
+    setearCarrito(carrito)
+    actualizarContadorCarrito()
+    renderizarCarrito(carrito)
+    calcularTotal(carrito)
+    mostrarTotal()
+    alertaToast('Juego agregado al carrito')
+}
+
+function renderizarCarrito(carrito) {
+    let contenedorCarrito = document.getElementById("contenedorCarrito");
+    contenedorCarrito.innerHTML = ""
+
+    carrito.forEach(juego => {
+        contenedorCarrito.innerHTML += `
+            <div id="tc${juego.id}" class="tarjeta__producto__carrito">
+                <img src="./img/$juego.id}.jpg" alt="Producto ${juego.nombre}">
+                <p>ID: ${juego.id}</p>
+                <p>Nombre: ${juego.nombre}</p>
+                <p>Precio Unitario: $${juego.precioUnitario}</p>
+                <div class="cantidades">
+                    <button id="br${juego.id}" class="formulario__submit btn__cantidad">-</button>
+                    <p>${juego.unidades}</p>
+                    <button id="bs${juego.id}" class="formulario__submit btn__cantidad">+</button>
+                </div>
+                <p>Subtotal: $${juego.subtotal}</p>
+                <button id="be${juego.id}" class="formulario__submit btn__cantidad">Eliminar</button>
+            </div>
+        `
+    })
+
+    carrito.forEach(juego => {
+        let botonEliminar = document.getElementById(`be${juego.id}`)
+        botonEliminar.addEventListener("click", (e) => eliminarJuegoCarrito(e))
+
+        let botonSumar = document.getElementById(`bs${juego.id}`)
+        botonSumar.addEventListener("click", (e) => sumarUnidad(e))
+
+        let botonRestar = document.getElementById(`br${juego.id}`)
+        botonRestar.addEventListener("click", (e) => restarUnidad(e))
+    })
+}
+/*----------------------------------BOTONES SUMAR, RESTAR, ELIMINAR-------------------------------------------*/
+function sumarUnidad(e) {
+    let id = Number(e.target.id.substring(2))
+    let carrito = obtenerCarrito()
+    let juegoBuscado = carrito.find(juego => juego.id === id)
+    
+    if (juegoBuscado) {
+        juegoBuscado.unidades++
+        juegoBuscado.subtotal = juegoBuscado.unidades * juegoBuscado.precioUnitario
+        setearCarrito(carrito)
+        renderizarCarrito(carrito)
+        actualizarContadorCarrito()
+        calcularTotal(carrito)
+        mostrarTotal()
+        alertaToast('Unidad agregada del carrito')
+    }
+}
+
+function restarUnidad(e) {
+    let id = Number(e.target.id.substring(2))
+    let carrito = obtenerCarrito()
+    let juegoBuscado = carrito.find(juego => juego.id === id)
+    
+    if (juegoBuscado && juegoBuscado.unidades > 1) {
+        juegoBuscado.unidades--
+        juegoBuscado.subtotal = juegoBuscado.unidades * juegoBuscado.precioUnitario
+        setearCarrito(carrito)
+        renderizarCarrito(carrito)
+        actualizarContadorCarrito()
+        calcularTotal(carrito)
+        mostrarTotal()
+        alertaToast('Unidad quitada del carrito')
+    } else if (juegoBuscado.unidades === 1) {
+        eliminarJuegoCarrito(e)
+    }
+}
+
+function eliminarJuegoCarrito(e) {
+    let id = Number(e.target.id.substring(2))
+    let carrito = obtenerCarrito()
+
+    carrito = carrito.filter(juego => juego.id !== id)
+    
+    setearCarrito(carrito)
+    renderizarCarrito(carrito)
+    actualizarContadorCarrito()
+    calcularTotal(carrito)
+    mostrarTotal()
+    alertaToast('Juego eliminado del carrito')
+}
+
+/**-----------------------------------CALCULAR Y MOSTRAR TOTAL---------------------------------------------- */
+function calcularTotal(carrito) {
+    let total = carrito.reduce((acum, juego) => acum + juego.subtotal, 0)
+    localStorage.setItem("total", total)
+    mostrarTotal()
+}
+
+function mostrarTotal() {
+    let total = obtenerTotal()
+    let contenedorTotal = document.getElementById("total")
+    contenedorTotal.innerHTML = total > 0 ? `<h3>TOTAL: $${total}</h3>` : ""
+}
+
+function actualizarContadorCarrito() {
+    let memoria = JSON.parse(localStorage.getItem("carrito")) || []
+    let cuenta = memoria.reduce((acum, current) => acum + current.unidades, 0)
+    let contadorCarrito = document.getElementById("cuenta-carrito")
+    contadorCarrito.innerText = cuenta
+}
+/**---------------------------------------------COMPRAR---------------------------------------------- */
+function finalizarCompra() {
+    let carrito = obtenerCarrito()
+
+    if (carrito.length === 0){
+        alertaToast("El carrito esta vacio")
+    } else {
+        alertaCartel()
+        localStorage.removeItem("carrito")
+        localStorage.removeItem("total")
+        renderizarCarrito([])
+        actualizarContadorCarrito()
+        mostrarTotal()
+    }
+}
+/**----------------------------------------VER PRODUCTOS CARRITO------------------------------------- */
+function mostrarOcultarCarrito() {
+    let contenedorJuegos = document.getElementById("grid")
+    let contenedorCarrito = document.getElementById("paginaCarrito")
+    let botonCarrito = document.getElementById("btnCarrito")
+    let busquedaReset = document.getElementById("busqueda__reset")
+    let filtrosCategoria = document.getElementById("filtros__categoria")
+    let contenedorFiltros = document.getElementById("filtros")
+
+    if (contenedorCarrito.className === "oculto") {
+        botonCarrito.innerText = "JUEGOS"
+        contenedorFiltros.classList.add("rowReverse")
+        alertaToast("Carrito mostrado")
+    } else {
+        botonCarrito.innerText = "CARRITO"
+        contenedorFiltros.classList.remove("rowReverse")
+        alertaToast("Juegos mostrados")
+    }
+    contenedorCarrito.classList.toggle("oculto")
+    contenedorJuegos.classList.toggle("oculto")
+    busquedaReset.classList.toggle("oculto")
+    filtrosCategoria.classList.toggle("oculto")
+}
+/** ---------------------------------------SWEET ALERT----------------------------------------------- */
+const Toast = Swal.mixin({
+    toast: true,
+    position: "bottom-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+    }
+})
+
+function alertaToast(titulo) {
+    Toast.fire({
+        icon:'success',
+        title: titulo
+    })
+}
+
+function alertaCartel() {
+    Swal.fire({
+        title: 'Compra realizada con exito!',
+        text: 'Gracias por su compra en >CodeMate!',
+        icon: 'success',
+        confirmButtonText: 'Aceptar',
+        confirmButtonColor: '#FFCE00',
+        color: 'black'
+    })
+}
+
+/** ---------------------------------------EJERCUCION SCRIPT---------------------------------------- */
+function main(juegos){
+    crearTarjetasJuegos(juegos)
+    crearFiltrosPorCategoria(juegos)  
+    
+    let carrito = obtenerCarrito()
+    renderizarCarrito(carrito)
+    actualizarContadorCarrito()
+    
+    let inputFiltro = document.getElementById("inputFiltros")
+    let btnBuscar = document.getElementById("btnBuscar")
+
+    btnBuscar.addEventListener("click", () => filtrarPorNombre(juegos, inputFiltro.value))
+
+    let btnVerCarrito = document.getElementById("btnCarrito")
+    btnVerCarrito.addEventListener("click", mostrarOcultarCarrito)
+
+    let botonComprar = document.getElementById("btnComprar")
+    botonComprar.addEventListener("click", () => finalizarCompra())
+
+    let contadorCarritoCompras = document.getElementById("cart")
+    contadorCarritoCompras.addEventListener("click", mostrarOcultarCarrito)
 }

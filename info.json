@@ -1,0 +1,82 @@
+[
+    {
+        "id": 1,
+        "nombre": "Dark Souls 3",
+        "categoria": "Acción / RPG",
+        "precio": 60,
+        "plataforma": "PC, PS4",
+        "img": "./img/1.jpg"
+    },
+    {
+        "id": 2,
+        "nombre": "Genshin Impact",
+        "categoria": "Acción / Aventura / RPG",
+        "precio": 10,
+        "plataforma": "PC, PS4, PS5",
+        "img": "./img/2.jpg"
+    },
+    {
+        "id": 3,
+        "nombre": "Resident Evil 8",
+        "categoria": "Horror / Supervivencia",
+        "precio": 48,
+        "plataforma": "PC, PS4, PS5, Xbox One",
+        "img": "./img/3.jpg"
+    },
+    {
+        "id": 4,
+        "nombre": "OverCooked 2",
+        "categoria": "Simulación / Estrategia / Multijugador",
+        "precio": 5,
+        "plataforma": "PC, PS4, Xbox One, Nintendo Switch",
+        "img": "./img/4.jpg"
+    },
+    {
+        "id": 5,
+        "nombre": "League of Legends",
+        "categoria": "MOBA",
+        "precio": 80,
+        "plataforma": "PC",
+        "img": "./img/5.jpg"
+    },
+    {
+        "id": 6,
+        "nombre": "The Witcher 3",
+        "categoria": "Acción / RPG",
+        "precio": 50,
+        "plataforma": "PC, PS4, PS5, Xbox One, Nintendo Switch",
+        "img": "./img/6.jpg"
+    },
+    {
+        "id": 7,
+        "nombre": "Fortnite",
+        "categoria": "Acción / Battle Royale",
+        "precio": 0,
+        "plataforma": "PC, PS4, PS5, Xbox One, Nintendo Switch",
+        "img": "./img/7.jpg"
+    },
+    {
+        "id": 8,
+        "nombre": "Minecraft",
+        "categoria": "Aventura / Creatividad",
+        "precio": 30,
+        "plataforma": "PC, PS4, PS5, Xbox One, Nintendo Switch",
+        "img": "./img/8.jpg"
+    },
+    {
+        "id": 9,
+        "nombre": "Cyberpunk 2077",
+        "categoria": "Acción / RPG",
+        "precio": 70,
+        "plataforma": "PC, PS4, PS5, Xbox One",
+        "img": "./img/9.jpg"
+    },
+    {
+        "id": 10,
+        "nombre": "Super Mario Odyssey",
+        "categoria": "Plataformas / Aventura",
+        "precio": 55,
+        "plataforma": "Nintendo Switch",
+        "img": "./img/10.jpg"
+    }
+]

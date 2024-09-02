@@ -3,13 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>>CodeMate</title>
+    <title>Play with >CodeMate!</title>
+    <!-- <link rel="stylesheet" href="css/normalize.css"> -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <div>
-        <h1>¡Bienvenido a >CodeMate!</h1>
-    </div>
-    <script src="./script.js"></script>   
+    <header>
+		<nav>
+			<a href="./index.html"><img src="./img/logo.png" alt="Logo" id="logo"></a>
+			<div>
+				<a href="#" id="cart"><img src="./img/carrito.png" alt=""><span id="cuenta-carrito">0</span></a>
+			</div>
+		</nav>
+	</header>
+
+    <main class="contenedor">
+        <h1 class="">Juegos Disponibles</h1>
+        <div id="filtros">
+            <div id="busqueda__reset">
+                <input id="inputFiltros" class="formulario__campo" type="text" placeholder="Buscar">
+                <button id="btnBuscar" class="formulario__submit">Buscar</button>
+                <button id="todos" class="formulario__submit" value="">Limpiar</button>
+            </div>
+            <div id="filtros__categoria"></div>
+            <div>
+                <button id="btnCarrito" class="formulario__submit">Carrito</button>
+            </div>
+        </div>
+        <div id="grid" class="grid"></div>
+        <div id="paginaCarrito" class="oculto">
+            <div id="contenedorCarrito"></div>
+            <div id="contenedor__btnComprar__total" >
+                <button id="btnComprar" class="formulario__submit">Comprar</button>
+                <div id="total"></div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="footer">
+        <p class="footer__texto">Play with >CodeMate! - Todos los derechos reservados.</p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./script.js"></script>
 </body>
 </html>
