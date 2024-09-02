@@ -1,8 +1,8 @@
 :root {
-    --primario: #676a8b;
-    --primarioOscuro: #8c7a9f;
+    --primario: #272727;
+    --primarioOscuro: #676a8b;
     --secundario: #fdf9f2;
-    --secundarioOscuro: #52734D;
+    --secundarioOscuro: #8c7a9f ;
     --blanco: #fdf9f2;
     --negro: #000;
     --fuentePrincipal: "Staatliches", cursive;
@@ -29,35 +29,17 @@ p {
     color: var(--blanco);
 }
 
-a {
-    text-decoration: none;
-}
-
-img {
-    width: 100%;
-}
 
 .contenedor {
     max-width: 120rem;
     margin: 0 auto;
 }
 
-h1, h2, h3 {
+h1 {
     text-align: center;
     color: var(--secundario);
     font-family: var(--fuentePrincipal);
-}
-
-h1 {
     font-size: 4rem;
-}
-
-h2 {
-    font-size: 3.2rem;
-}
-
-h3 {
-    font-size: 2.4rem;
 }
 
 header nav {
@@ -132,12 +114,14 @@ header nav {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     column-gap: 2rem;
+    border-radius:  15px 15px 15px 15px;
+    box-shadow: 6px 6px 10px #9476b5;
 }
 
 .juego__imagen {
     width: 100%;
+    border-radius:  15px 15px 15px 15px;
 }
-
 .juego__nombre {
     font-size: 4rem;
 }
@@ -175,6 +159,8 @@ header nav {
 .formulario__submit {
     background-color: var(--secundario);
     border: none;
+    border-radius:  15px 15px 15px 15px;
+    box-shadow: 6px 6px 10px #272727;
     font-size: 2rem;
     font-family: var(--fuentePrincipal);
     padding: 2rem;

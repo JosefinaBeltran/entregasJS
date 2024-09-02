@@ -51,7 +51,7 @@
         "id": 7,
         "nombre": "Fortnite",
         "categoria": "Acción / Battle Royale",
-        "precio": 0,
+        "precio": 10,
         "plataforma": "PC, PS4, PS5, Xbox One, Nintendo Switch",
         "img": "./img/7.jpg"
     },
