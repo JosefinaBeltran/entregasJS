@@ -3,13 +3,10 @@ fetch('./info.json')
     .then(juego => main(juego))
     .catch(error => console.log(error))
 
-/**----------------------------------------------------PRODUCTOS---------------------------------------- */
+
 function crearTarjetasJuegos(juegos) {
     let contenedorJuegos = document.getElementById("grid")
-    contenedorJuegos.innerHTML = `
-        <div class="grafico grafico--juegos"></div>
-        <div class="grafico grafico--node"></div>
-    `
+    contenedorJuegos.innerHTML = ""
     juegos.forEach(juego => {
         let nodoJuego = document.createElement("div")
         nodoJuego.className = "juego" 
@@ -46,7 +43,7 @@ function crearFiltrosPorCategoria(listaJuegos) {
     })
 
     let botonTodos = document.getElementById("todos")
-    let textoToast = "Filtro reseteado"
+    let textoToast = "Filtro borrado"
     botonTodos.addEventListener("click", (e) => filtrarPorCategoria(e, listaJuegos, textoToast))
 }
 
@@ -54,7 +51,7 @@ function filtrarPorNombre(juegos, valorBusqueda) {
     let valorBusquedaLower = valorBusqueda.toLowerCase()
     let juegosFiltrados = juegos.filter(juego => juego.nombre.toLowerCase().includes(valorBusquedaLower))
     crearTarjetasJuegos(juegosFiltrados)
-    alertaToast(`Busqueda realizada: ${valorBusqueda}`)
+    alertaToast(`Buscando: ${valorBusqueda}`)
 }
 
 function filtrarPorCategoria(e, juegos, texto) {
@@ -62,7 +59,8 @@ function filtrarPorCategoria(e, juegos, texto) {
     crearTarjetasJuegos(juegosFiltrados)
     alertaToast(texto)
 }
-/**--------------------------------------------LOCALSTORAGE---------------------------------------------- */
+
+
 function setearCarrito(carrito) {
     let carritoJSON = JSON.stringify(carrito)
     localStorage.setItem("carrito",carritoJSON)
@@ -84,7 +82,8 @@ function obtenerTotal() {
     let total = localStorage.getItem("total");
     return total ? Number(total) : 0
 }
-/**------------------------------------------------CARRITO----------------------------------------------- */
+
+
 function agregarAlCarrito(e, juegos) {
     let carrito = obtenerCarrito()
     let idJuego = Number(e.target.id)
@@ -116,9 +115,7 @@ function renderizarCarrito(carrito) {
 
     carrito.forEach(juego => {
         contenedorCarrito.innerHTML += `
-            <div id="tc${juego.id}" class="tarjeta__producto__carrito">
-                <img src="./img/$juego.id}.jpg" alt="Producto ${juego.nombre}">
-                <p>ID: ${juego.id}</p>
+            <div id="tc${juego.id}" class="tarjeta__juego__carrito">
                 <p>Nombre: ${juego.nombre}</p>
                 <p>Precio Unitario: $${juego.precioUnitario}</p>
                 <div class="cantidades">
@@ -143,7 +140,9 @@ function renderizarCarrito(carrito) {
         botonRestar.addEventListener("click", (e) => restarUnidad(e))
     })
 }
-/*----------------------------------BOTONES SUMAR, RESTAR, ELIMINAR-------------------------------------------*/
+
+
+
 function sumarUnidad(e) {
     let id = Number(e.target.id.substring(2))
     let carrito = obtenerCarrito()
@@ -194,7 +193,7 @@ function eliminarJuegoCarrito(e) {
     alertaToast('Juego eliminado del carrito')
 }
 
-/**-----------------------------------CALCULAR Y MOSTRAR TOTAL---------------------------------------------- */
+
 function calcularTotal(carrito) {
     let total = carrito.reduce((acum, juego) => acum + juego.subtotal, 0)
     localStorage.setItem("total", total)
@@ -213,7 +212,8 @@ function actualizarContadorCarrito() {
     let contadorCarrito = document.getElementById("cuenta-carrito")
     contadorCarrito.innerText = cuenta
 }
-/**---------------------------------------------COMPRAR---------------------------------------------- */
+
+
 function finalizarCompra() {
     let carrito = obtenerCarrito()
 
@@ -228,7 +228,8 @@ function finalizarCompra() {
         mostrarTotal()
     }
 }
-/**----------------------------------------VER PRODUCTOS CARRITO------------------------------------- */
+
+
 function mostrarOcultarCarrito() {
     let contenedorJuegos = document.getElementById("grid")
     let contenedorCarrito = document.getElementById("paginaCarrito")
@@ -251,10 +252,11 @@ function mostrarOcultarCarrito() {
     busquedaReset.classList.toggle("oculto")
     filtrosCategoria.classList.toggle("oculto")
 }
-/** ---------------------------------------SWEET ALERT----------------------------------------------- */
+
+
 const Toast = Swal.mixin({
     toast: true,
-    position: "bottom-end",
+    position: "bottom",
     showConfirmButton: false,
     timer: 3000,
     timerProgressBar: true,
@@ -282,7 +284,8 @@ function alertaCartel() {
     })
 }
 
-/** ---------------------------------------EJERCUCION SCRIPT---------------------------------------- */
+
+
 function main(juegos){
     crearTarjetasJuegos(juegos)
     crearFiltrosPorCategoria(juegos)  
